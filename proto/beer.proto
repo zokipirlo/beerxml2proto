@@ -1,0 +1,208 @@
+syntax = "proto2";
+
+option java_package = "beer.hapibrew.beerxml2proto.proto";
+
+enum RecipeType {
+    ALL_GRAIN = 0;
+    PARTIAL_MASH = 1;
+    EXTRACT = 2;
+}
+
+message Recipe {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional RecipeType type = 3;
+    optional Style style = 4;
+    repeated Hop hops = 5;
+    repeated Fermentable fermentables = 6;
+    repeated Misc miscs = 7;
+    repeated Yeast yeasts = 8;
+    repeated Water waters = 9;
+    optional Mash mash = 10;
+    repeated Fermentation fermentations = 11;
+    optional double batch_size = 12;
+    optional double boil_size = 13;
+    optional int32 boil_time = 14;
+    optional double efficiency = 15 [default = 75.0];
+    optional double est_og = 16 [default = 1.000];
+    optional double est_fg = 17 [default = 1.000];
+    optional double est_abv = 18 [default = 0.0];
+    optional double est_srm = 19 [default = 0];
+    optional double est_ibu = 20 [default = 0];
+    optional Equipment equipment = 21;
+    optional string notes = 22;
+    optional string brewer = 23;
+}
+
+enum StyleType {
+    LAGER = 0;
+    ALE = 1;
+    MEAD = 2;
+    WHEAT = 3;
+    MIXED = 4;
+    CIDER = 5;
+}
+message Style {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional string category = 3;
+    optional string category_number = 4;
+    optional string style_letter = 5;
+    optional string style_guide = 6;
+    optional StyleType type = 7;
+    optional double og_min = 8 [default = 1.000];
+    optional double og_max = 9 [default = 1.160];
+    optional double fg_min = 10 [default = 1.000];
+    optional double fg_max = 11 [default = 1.160];
+    optional double abv_min = 12 [default = 0];
+    optional double abv_max = 13 [default = 15];
+    optional double srm_min = 14 [default = 0];
+    optional double srm_max = 15 [default = 40];
+    optional double ibu_min = 16 [default = 0];
+    optional double ibu_max = 17 [default = 120];
+    optional string notes = 18;
+}
+
+enum HopUse {
+    BOIL = 0; // boil time
+    DRY_HOP = 1; // amount of dry hop time
+    MASH = 2; // mash time
+    FIRST_WORT = 3; // boil time
+    AROMA = 4; // steep time
+}
+enum HopType {
+    BITTERING = 0;
+    AROMA = 1;
+    BOTH = 2;
+}
+enum HopForm {
+    PELLET = 0;
+    PLUG = 1;
+    LEAF = 2;
+}
+message Hop {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional double alpha = 3;
+    optional double amount = 4;
+    optional HopUse use = 5;
+    optional double time = 6;
+    optional HopType type = 7;
+    optional HopForm form = 8;
+    optional string notes = 9;
+}
+
+message Fermentable {
+    optional string name = 1;
+    optional int32 version = 2 [default = 1];
+    optional string type = 3;
+    optional double amount = 4;
+    optional double yield = 5;
+    optional double color = 6;
+    optional double potential = 7 [default = 1.000];
+    optional string notes = 8;
+}
+
+enum MiscType {
+    SPICE = 0;
+    FINING = 1;
+    WATER_AGENT = 2;
+    HERB = 3;
+    FLAVOR = 4;
+    OTHER = 5;
+}
+enum MiscUse {
+    BOIL = 0;
+    MASH = 1;
+    PRIMARY = 2;
+    SECONDARY = 3;
+    BOTTLING = 4;
+}
+message Misc {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional MiscType type = 3;
+    optional MiscUse use = 4;
+    optional double amount = 5;
+    optional double time = 6;
+    optional bool amount_is_weight = 7;
+    optional string use_for = 8;
+    optional string notes = 9;
+}
+
+enum YeastType {
+    ALE = 0;
+    LAGER = 1;
+    WHEAT = 2;
+    WINE = 3;
+    CHAMPAGNE = 4;
+}
+enum YeastForm {
+    LIQUID = 0;
+    DRY = 1;
+    SLANT = 2;
+    CULTURE = 3;
+}
+message Yeast {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional string laboratory = 3;
+    optional string product_id = 4;
+    optional YeastType type = 5;
+    optional YeastForm form = 6;
+    optional double amount = 7;
+    optional bool amount_is_weight = 8;
+    optional double attenuation = 9;
+    optional double min_temp = 10;
+    optional double max_temp = 11;
+    optional string notes = 12;
+}
+
+message Water {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional double amount = 3;
+    optional double calcium = 4;
+    optional double bicarbonate = 5;
+    optional double sulfate = 6;
+    optional double chloride = 7;
+    optional double sodium = 8;
+    optional double magnesium = 9;
+    optional string notes = 10;
+}
+
+message MashStep {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional double step_temp = 3;
+    optional double step_time = 4;
+}
+message Mash {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional double sparge_temp = 3;
+    optional double ph = 4;
+    repeated MashStep steps = 5;
+    optional string notes = 6;
+}
+
+message Fermentation {
+    optional double days = 1;
+    optional double temperature = 2;
+    optional int32 step = 3;
+    optional bool is_aging = 4 [default=false];
+}
+
+message Equipment {
+    optional string name = 1;
+    optional int32 version = 2 [default=1];
+    optional double boil_size = 3;
+    optional double batch_size = 4;
+    optional double tun_volume = 5;
+    optional double top_up_water = 6;
+    optional double trub_chiller_loss = 7;
+    optional double evap_rate = 8;
+    optional double boil_time = 9;
+    optional bool calc_boil_volume = 10;
+    optional string notes = 11;
+}
