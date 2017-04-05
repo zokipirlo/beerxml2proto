@@ -1,2 +1,2 @@
 # beerxml2proto
-BeerXML to Protobuffers converter for Android
+BeerXML to Protocol buffers converter for Android
